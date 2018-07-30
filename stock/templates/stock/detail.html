@@ -1,0 +1,38 @@
+{% extends 'stock/base.html' %}
+{% block title %}Category Detail{% endblock %}
+{% block add_specific %}
+      <li class="">
+                    <a href="{% url 'stock:product-add' %}">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Product
+                    </a>
+                </li>
+      <li class="">
+{% endblock %}
+{% block body %}
+
+    <h5>Details of</h5>
+    <h1>{{category.cat_name}}</h1>
+    <h3>{{ category.id }}</h3>
+    {% for product in category.product_set.all %}
+        {{ product.pr_name }}
+        {{ product.pr_id }}
+        {{ product.pr_price }}
+        {{ product.pr_stock }}
+        {{ product.pr_mfg }}
+        {{ product.pr_avb }}
+           <form action="{% url 'stock:product-delete' product.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="category_id" value="{{ product_id }]">
+                            <button type="submit" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </form>
+          <br>
+    {% endfor %}
+    <form action="/admin/" method="POST">
+        {% csrf_token %}
+        <label for="pr_name">Product Name : </label>
+        <input id="pr_name" type="text" name="pr_name" value="{{ current_name }}">
+        <input type="submit" value="OK">
+    </form>
+{% endblock %}
